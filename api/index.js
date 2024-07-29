@@ -11,7 +11,10 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('home');
 });
+
+// Custom logger implementation
 app.use(Logger);
+
 // Application routes
 app.use('/ticket', ticketRouter);
 app.use('/user', userRouter);
