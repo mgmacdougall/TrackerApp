@@ -3,10 +3,11 @@ import mongoose from 'mongoose';
 import Logger from './src/middleware/CustomLogger.js';
 import ticketRouter from './src/routes/TicketRouter.js';
 import userRouter from './src/routes/UserRouter.js';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
-
 // Home route
 app.get('/', (req, res) => {
   res.send('home');
@@ -22,7 +23,7 @@ app.use('/user', userRouter);
 // DB Connection + server start
 mongoose
   .connect(
-    `mongodb+srv://mgmacdougall:nc8TUlpkXVpzrCWN@maincluser.vsgj6ng.mongodb.net/?retryWrites=true&w=majority&appName=MainCluser`
+    `mongodb+srv://mgmacdougall:<passord>@maincluser.vsgj6ng.mongodb.net/?retryWrites=true&w=majority&appName=MainCluser`
   )
   .then(() => {
     console.log('db connected');
