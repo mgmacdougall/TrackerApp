@@ -12,3 +12,16 @@
   margin-right: auto;
   margin-top: 2rem;
 }
+
+.text-centered {
+  text-align: center;
+}
+
+.max-width-large {
+  max-width: 1250px;
+}
+
+.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
