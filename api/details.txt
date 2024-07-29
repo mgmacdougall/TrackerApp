@@ -1,0 +1,4 @@
+Main DB User: mgmacdougall
+Password: nc8TUlpkXVpzrCWN
+
+DB Connection String: mongodb+srv://mgmacdougall:<password>@maincluser.vsgj6ng.mongodb.net/?retryWrites=true&w=majority&appName=MainCluser
