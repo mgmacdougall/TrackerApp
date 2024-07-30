@@ -1,12 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-function LogInForm({
-  emailHandler,
-  passwordHandler,
-  handleSubmit,
-  uName,
-  uPass
-}) {
+function LogInForm({handleForm, handleSubmit, data}) {
+  const {uName, uPass} = data;
   return (
     <div>
       <Form className="centered" onSubmit={e => handleSubmit(e)}>
@@ -17,7 +12,8 @@ function LogInForm({
             value={uName}
             type="email"
             placeholder="Enter email"
-            onChange={e => emailHandler(e)}
+            name="uName"
+            onChange={e => handleForm(e)}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="formGroupPassword">
@@ -26,7 +22,8 @@ function LogInForm({
             value={uPass}
             type="password"
             placeholder="Password"
-            onChange={e => passwordHandler(e)}
+            name="uPass"
+            onChange={handleForm}
           />
         </Form.Group>
         <Button type="submit">Submit</Button>
