@@ -3,16 +3,15 @@ import './App.css';
 import LogInForm from './pages/LoginPage'
 import HomePage from './pages/HomePage';
 import TicketPage from './pages/TicketPage';
-import AdminPage from './pages/AdminPage';
+import BugAdminPage from './pages/BugAdminPage';
 import { Routes, Route } from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 
 function App() {
   const[isLoggedIn, setIsLoggedIn] = useState(false);
-  const[userName, setUserName] = useState("");
-  const[userPassword, setUserPassword] = useState("");
   const[allTickets, setAllTickets] = useState([]);
+  const[queryResults, setQueryResults]=useState([]);
 
   const[form, setForm]=useState({
     title:'',
@@ -22,9 +21,15 @@ function App() {
     steps:''
   });
 
+  const[searchForm, setSearchForm]=useState({
+    title:'',
+    component:'',
+    state:'',
+    owner:''
+  })
 
   const[loginForm, setLoginForm]= useState({
-    uName:'',
+    uName:'Mike',
     uPass:''
   })
 
@@ -33,7 +38,6 @@ function App() {
   }
 
   const handleLoginFormChange=e=>{
-    console.log('here', e.target.value)
     setLoginForm({
       ...loginForm,
       [e.target.name]:e.target.value
@@ -41,16 +45,29 @@ function App() {
   }
 
   const handleTicketSubmit=(e)=>{
-    console.log(e.target)
     e.preventDefault();
-    axios.post("http://localhost:4044/ticket",{title: form.title}).then(response=> console.log("success",response)).catch(e=> console.log('failed',e))
+    console.log(form)
+    axios.post("http://localhost:4044/ticket",{form}).then(response=> console.log("success",response)).catch(e=> console.log('failed',e))
   }
 
   const handleFormChange= e=>{
+    console.log(e.target)
     setForm({
       ...form,
       [e.target.name]: e.target.value
     })
+  }
+
+  const handleSearchFormChange=e=>{
+    setSearchForm({
+      ...searchForm,
+      [e.target.name]:e.target.value
+    })
+  }
+
+  const handleTicketSearch=e=>{
+    e.preventDefault();
+    axios.get('http://localhost:4044/ticket/all').then(response=> setQueryResults(response.data)).catch(e=> console.log(e));
   }
 
   useEffect(() => {
@@ -60,9 +77,9 @@ function App() {
   return (
     <>
     <Routes>
-        <Route path="/" element={<HomePage tickets={allTickets} display={isLoggedIn}/>}/> 
+        <Route path="/" element={<HomePage display={isLoggedIn}/>}/> 
         <Route path="/tickets" element={<TicketPage handlers={[handleTicketSubmit, handleFormChange] } vals={[form]} />}/> 
-        <Route path="/admin" element={<AdminPage/>}/> 
+        <Route path="/admin" element={<BugAdminPage formData={searchForm} handlers={[handleTicketSearch,handleSearchFormChange]} results={queryResults}/>} />
         <Route path="/login" element={<LogInForm handleForm={handleLoginFormChange} handleSubmit={handleLogInClick} data={loginForm}/>}/> 
       </Routes>
     </>
