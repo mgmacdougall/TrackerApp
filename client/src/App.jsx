@@ -51,7 +51,6 @@ function App() {
   }
 
   const handleFormChange= e=>{
-    console.log(e.target)
     setForm({
       ...form,
       [e.target.name]: e.target.value
@@ -70,9 +69,9 @@ function App() {
     axios.get('http://localhost:4044/ticket/all').then(response=> setQueryResults(response.data)).catch(e=> console.log(e));
   }
 
-  useEffect(() => {
-    axios.get('http://localhost:4044/ticket/all').then(response=> setAllTickets(response.data)).catch(e=> console.log(e))
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:4044/ticket/all').then(response=> setAllTickets(response.data)).catch(e=> console.log(e))
+  // }, [])
   
   return (
     <>
