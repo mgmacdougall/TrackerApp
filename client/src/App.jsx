@@ -22,19 +22,28 @@ function App() {
     steps:''
   });
 
-  const handleEmailInput=(e)=>{ setUserName(e.target.value); console.log(userName)};
-  const handlePasswordInput=(e)=> setUserPassword(e.target.value);
+
+  const[loginForm, setLoginForm]= useState({
+    uName:'',
+    uPass:''
+  })
 
   const handleLogInClick=(e)=>{
     e.preventDefault();
-    setIsLoggedIn(true);
-    console.log('here')
+  }
+
+  const handleLoginFormChange=e=>{
+    console.log('here', e.target.value)
+    setLoginForm({
+      ...loginForm,
+      [e.target.name]:e.target.value
+    })
   }
 
   const handleTicketSubmit=(e)=>{
+    console.log(e.target)
     e.preventDefault();
     axios.post("http://localhost:4044/ticket",{title: form.title}).then(response=> console.log("success",response)).catch(e=> console.log('failed',e))
-    
   }
 
   const handleFormChange= e=>{
@@ -54,9 +63,8 @@ function App() {
         <Route path="/" element={<HomePage tickets={allTickets} display={isLoggedIn}/>}/> 
         <Route path="/tickets" element={<TicketPage handlers={[handleTicketSubmit, handleFormChange] } vals={[form]} />}/> 
         <Route path="/admin" element={<AdminPage/>}/> 
-        <Route path="/login" element={<LogInForm emailHandler={handleEmailInput} passwordHandler={handlePasswordInput} handleSubmit={handleLogInClick} uName={userName} uPass={userPassword}/>}/> 
+        <Route path="/login" element={<LogInForm handleForm={handleLoginFormChange} handleSubmit={handleLogInClick} data={loginForm}/>}/> 
       </Routes>
-      
     </>
   )
 }
