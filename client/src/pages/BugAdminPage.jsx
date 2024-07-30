@@ -77,6 +77,7 @@ function BugAdminPage({formData, handlers, results}) {
       <Row>
          {
         results.length>0 && results.map(ticket=>{
+          console.log(ticket)
           return(
           <Card key={uuidv4()}>
             <Card.Body>
