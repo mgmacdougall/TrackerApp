@@ -17,10 +17,15 @@ ticketRouter.get('/all', async (req, res) => {
 
 // Create route
 ticketRouter.post('/', async (req, res) => {
-  const {title} = req.body;
-
+  const {title, component, state, owner, steps} = req.body.form;
   try {
-    const bugTicket = new TicketModel({title});
+    const bugTicket = new TicketModel({
+      title,
+      component,
+      state,
+      owner,
+      steps
+    });
     const result = await TicketModel.create(bugTicket);
     res.status(201).json(result);
   } catch (error) {
