@@ -65,4 +65,14 @@ ticketRouter.put('/:id', async (req, res) => {
   }
 });
 
+ticketRouter.get('/query', async (req, res) => {
+  try {
+    const result = await TicketModel.find()
+      .where('title')
+      .equals(req.query.title);
+    res.send(result);
+  } catch (error) {
+    res.send('error', error);
+  }
+});
 export default ticketRouter;
