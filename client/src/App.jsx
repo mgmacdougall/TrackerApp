@@ -10,7 +10,7 @@ import axios from 'axios';
 
 function App() {
   const[isLoggedIn, setIsLoggedIn] = useState(false);
-  const[allTickets, setAllTickets] = useState([]);
+  // const[allTickets, setAllTickets] = useState([]);
   const[queryResults, setQueryResults]=useState([]);
 
   const[form, setForm]=useState({
@@ -58,6 +58,7 @@ function App() {
   }
 
   const handleSearchFormChange=e=>{
+    console.log(e.target.value,e.target.name)
     setSearchForm({
       ...searchForm,
       [e.target.name]:e.target.value
@@ -66,13 +67,15 @@ function App() {
 
   const handleTicketSearch=e=>{
     e.preventDefault();
-    axios.get('http://localhost:4044/ticket/all').then(response=> setQueryResults(response.data)).catch(e=> console.log(e));
+    let _queryObject = {...searchForm}
+
+    const params = new URLSearchParams(new URLSearchParams(_queryObject).toString().replace(/(?:\&|^)[^\&]*?\=(?=\&|$)/g, ''));
+    console.log(params.toString())
+    let query=`http://localhost:4044/ticket/query/${params.toString()}`;
+    console.log(query)
+    axios.get(`http://localhost:4044/ticket/query?${params.toString()}`).then(response=> setQueryResults(response.data)).catch(e=> console.log(e));
   }
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:4044/ticket/all').then(response=> setAllTickets(response.data)).catch(e=> console.log(e))
-  // }, [])
-  
   return (
     <>
     <Routes>
