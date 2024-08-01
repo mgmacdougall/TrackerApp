@@ -81,10 +81,14 @@ function App() {
   }
 
     const params = new URLSearchParams(new URLSearchParams(queryString).toString().replace(/(?:\&|^)[^\&]*?\=(?=\&|$)/g, ''));
-    console.log(params.toString())
     let query=`http://localhost:4044/ticket/query/${params.toString()}`;
-    console.log(query)
     axios.get(`http://localhost:4044/ticket/query?${params.toString()}`).then(response=> setQueryResults(response.data)).catch(e=> console.log(e));
+  }
+
+
+  const handleDeleteClick=e=>{
+    console.log(e.target.name)
+    axios.delete(`http://localhost:4044/ticket/${e.target.name}`).then(response=> setQueryResults(response)).catch(e=>console.log(e));
   }
 
   return (
@@ -92,7 +96,7 @@ function App() {
     <Routes>
         <Route path="/" element={<HomePage display={isLoggedIn}/>}/> 
         <Route path="/tickets" element={<TicketPage handlers={[handleTicketSubmit, handleFormChange] } vals={[form]} />}/> 
-        <Route path="/admin" element={<BugAdminPage formData={searchForm} handlers={[handleTicketSearch,handleSearchFormChange]} results={queryResults}/>} />
+        <Route path="/admin" element={<BugAdminPage formData={searchForm} handlers={[handleTicketSearch,handleSearchFormChange,handleDeleteClick]} results={queryResults}/>} />
         <Route path="/login" element={<LogInForm handleForm={handleLoginFormChange} handleSubmit={handleLogInClick} data={loginForm}/>}/> 
       </Routes>
     </>

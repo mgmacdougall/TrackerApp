@@ -10,7 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { v4 as uuidv4 } from 'uuid';
 function BugAdminPage({formData, handlers, results}) {
   const {title} = formData;
-  const[handleTicketSearch, handleSearchFormChange]=handlers;
+  const[handleTicketSearch, handleSearchFormChange,handleDeleteClick]=handlers;
   return (
   <>
       <NavBar/>
@@ -75,11 +75,11 @@ function BugAdminPage({formData, handlers, results}) {
      
       <Row>
          {results.length>0 && results.map(ticket=>{
-          console.log(ticket)
           return(
           <Card key={uuidv4()}>
-            <Card.Body>
+            <Card.Body id={ticket._id}>
               <ListGroup variant="flush">
+                <ListGroup.Item><strong>ID</strong> {ticket._id}</ListGroup.Item>
                 <ListGroup.Item><strong>Title</strong> {ticket.title}</ListGroup.Item>
                 <ListGroup.Item><strong>Component</strong> {ticket.component}</ListGroup.Item>
                 <ListGroup.Item><strong>State</strong> {ticket.state}</ListGroup.Item>
@@ -89,6 +89,7 @@ function BugAdminPage({formData, handlers, results}) {
                     <Button variant="secondary">More...</Button>
                     <Button variant="secondary">Take</Button>
                     <Button variant="secondary">Edit..</Button>
+                    <Button variant="secondary" name={ticket._id} onClick={(e=> handleDeleteClick(e))}>Delete</Button>
                   </ButtonGroup>
                 </ListGroup.Item>
               </ListGroup>
