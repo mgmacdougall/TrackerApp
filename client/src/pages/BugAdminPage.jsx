@@ -10,7 +10,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { v4 as uuidv4 } from 'uuid';
 function BugAdminPage({formData, handlers, results}) {
   const {title} = formData;
-  const[handleTicketSearch, handleSearchFormChange,handleDeleteClick]=handlers;
+  const[handleTicketSearch, handleSearchFormChange,handleDeleteClick,handleEditClick]=handlers;
   return (
   <>
       <NavBar/>
@@ -88,7 +88,7 @@ function BugAdminPage({formData, handlers, results}) {
                   <ButtonGroup aria-label="Basic example">
                     <Button variant="secondary">More...</Button>
                     <Button variant="secondary">Take</Button>
-                    <Button variant="secondary">Edit..</Button>
+                    <Button name={ticket._id} variant="secondary" onClick={e=>handleEditClick(e)}>Edit..</Button>
                     <Button variant="secondary" name={ticket._id} onClick={(e=> handleDeleteClick(e))}>Delete</Button>
                   </ButtonGroup>
                 </ListGroup.Item>
