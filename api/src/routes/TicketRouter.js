@@ -1,5 +1,6 @@
 import Router from 'express';
 import TicketModel from '../models/TicketModel.js';
+import mongoose from 'mongoose';
 
 const ticketRouter = Router();
 
@@ -45,20 +46,36 @@ ticketRouter.delete('/:id', async (req, res) => {
   }
 });
 
-// Update route
-ticketRouter.put('/:id', async (req, res) => {
+// Get Single by id
+ticketRouter.get('/query/:id', async (req, res) => {
   try {
-    const {title} = req.body;
     const {id} = req.params;
-
     const doc = await TicketModel.findOne({_id: id});
     if (doc) {
-      doc.overwrite({title: title});
-      await doc.save();
-      let result = await TicketModel.findById({_id: id});
-      res.send(result);
-    } else {
-      res.send('Update failed please make sure parameters correct');
+      res.status(200).send(doc);
+    }
+  } catch (error) {
+    res.status(501).send(error);
+  }
+});
+
+// Update route
+ticketRouter.put('/query/update/:id', async (req, res) => {
+  try {
+    const {title, component, state, owner} = req.body;
+    var id = new mongoose.Types.ObjectId(req.params.id);
+
+    let update = await TicketModel.findOneAndUpdate(
+      {_id: id},
+      {title, component, state, owner},
+      {
+        returnOriginal: false
+      }
+    );
+
+    if (update) {
+      const result = await TicketModel.findOne(id);
+      return res.status(200).send(result);
     }
   } catch (error) {
     res.send(error.message);
@@ -81,8 +98,7 @@ ticketRouter.get('/query', async (req, res) => {
   }
   try {
     const result = await TicketModel.find(query).exec();
-    console.log(result);
-    res.send(result);
+    res.status(200).send(result);
   } catch (error) {
     res.send('error', error);
   }
