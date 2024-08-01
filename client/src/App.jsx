@@ -69,7 +69,18 @@ function App() {
     e.preventDefault();
     let _queryObject = {...searchForm}
 
-    const params = new URLSearchParams(new URLSearchParams(_queryObject).toString().replace(/(?:\&|^)[^\&]*?\=(?=\&|$)/g, ''));
+  let objLength=Object.keys(_queryObject).length;
+  let queryString = {};
+  for(let i=0; i<=objLength-1; i++){    
+      if(Object.values(_queryObject)[i]!==''){
+        console.log(Object.keys(_queryObject)[i],Object.values(_queryObject)[i])
+        let _curKey= Object.keys(_queryObject)[i];
+        let _currValue= Object.values(_queryObject)[i];
+        queryString[_curKey]=_currValue
+      }
+  }
+
+    const params = new URLSearchParams(new URLSearchParams(queryString).toString().replace(/(?:\&|^)[^\&]*?\=(?=\&|$)/g, ''));
     console.log(params.toString())
     let query=`http://localhost:4044/ticket/query/${params.toString()}`;
     console.log(query)
