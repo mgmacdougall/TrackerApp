@@ -66,10 +66,22 @@ ticketRouter.put('/:id', async (req, res) => {
 });
 
 ticketRouter.get('/query', async (req, res) => {
+  let query = {};
+  if (req.query.title) {
+    query.title = req.query.title;
+  }
+  if (req.query.component) {
+    query.component = req.query.component;
+  }
+  if (req.query.state) {
+    query.state = req.query.state;
+  }
+  if (req.query.owner) {
+    query.state = req.query.owner;
+  }
   try {
-    const result = await TicketModel.find()
-      .where('title')
-      .equals(req.query.title);
+    const result = await TicketModel.find(query).exec();
+    console.log(result);
     res.send(result);
   } catch (error) {
     res.send('error', error);
