@@ -1,5 +1,10 @@
 const Logger = (req, res, next) => {
-  console.log(req.body);
+  if (req.body) {
+    console.log(req.body);
+  }
+  if (req.query) {
+    console.log(req.query);
+  }
   next();
 };
 
