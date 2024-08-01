@@ -10,7 +10,6 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import { v4 as uuidv4 } from 'uuid';
 function BugAdminPage({formData, handlers, results}) {
   const {title} = formData;
-  console.log(results)
   const[handleTicketSearch, handleSearchFormChange]=handlers;
   return (
   <>
@@ -75,8 +74,7 @@ function BugAdminPage({formData, handlers, results}) {
 
      
       <Row>
-         {
-        results.length>0 && results.map(ticket=>{
+         {results.length>0 && results.map(ticket=>{
           console.log(ticket)
           return(
           <Card key={uuidv4()}>
