@@ -8,25 +8,17 @@ import cors from 'cors';
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 // Home route
 app.get('/', (req, res) => {
   res.send('home');
 });
 
 // Custom logger implementation
-app.use(Logger);
+// app.use(Logger);
 
 // Application routes
 app.use('/ticket', ticketRouter);
 app.use('/user', userRouter);
 
-// DB Connection + server start
-mongoose
-  .connect(
-    `mongodb+srv://mgmacdougall:<passord>@maincluser.vsgj6ng.mongodb.net/?retryWrites=true&w=majority&appName=MainCluser`
-  )
-  .then(() => {
-    console.log('db connected');
-    app.listen(4044, () => console.log(`Server started on port 4044`));
-  })
-  .catch(e => console.log(e));
+export {app};

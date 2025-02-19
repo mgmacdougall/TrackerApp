@@ -9,7 +9,7 @@ ticketRouter.get('/all', async (req, res) => {
   try {
     const result = await TicketModel.find();
     if (result) {
-      res.send(result);
+      res.status(200).json(result);
     }
   } catch (e) {
     res.send(e.message);
